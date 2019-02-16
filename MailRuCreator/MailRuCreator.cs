@@ -5,6 +5,8 @@ using System.IO;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
+using System.Threading.Tasks;
+using OpenQA.Selenium.Chrome;
 
 namespace MailRuCreator
 {
@@ -18,6 +20,7 @@ namespace MailRuCreator
         PhantomJSDriver driver;
         UserData user;
         string defKapchaIMG = @".\Data\kapcha_def.jpg";
+        string caption = "Mail.Ru BOT Info";
 
         private void Close_btn_Click(object sender, EventArgs e)
         {
@@ -40,15 +43,26 @@ namespace MailRuCreator
             minimized.Visible = false;
         }
 
+        private void UIClear()
+        {
+            login_box.Text = string.Empty;
+            pass_box.Text = string.Empty;
+            name_box.Text = string.Empty;
+            surName_box.Text = string.Empty;
+            kapcha_line.Text = string.Empty;
+            kapcha_board.ImageLocation = defKapchaIMG;
+        }
+
         private void Generate_btn_Click(object sender, EventArgs e)
         {
+            string infoText = "Please Wait While you Kapcha will be Displayed";
             try
             {
                 if (driver != null)
-                {
                     driver.Quit();
-                }
-                MessageBox.Show("Please Wait While you Kapcha will be Displayed");
+
+                UIClear();
+                MessageBox.Show(infoText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 driver = new PhantomJSDriver();
                 IJavaScriptExecutor js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
@@ -56,58 +70,46 @@ namespace MailRuCreator
                 user = new UserData();
                 user.GenerateUser();
                 driver.Navigate().GoToUrl("https://account.mail.ru/signup?rf=auth.mail.ru&from=main");
-
-                //START C#
                 //First Name Input
                 driver.FindElement(By.CssSelector("[name=\"firstname\"]")).SendKeys(user.Name);
-
                 //Second Name Input
                 driver.FindElement(By.CssSelector("[name=\"lastname\"]")).SendKeys(user.SurName);
-
                 //date Day Input
                 driver.FindElement(By.CssSelector(".b-date__day div")).Click();
                 js.ExecuteScript($"document.getElementsByClassName('b-dropdown__list__item day{user.Date.Day}')[0].click()");
                 //driver.FindElement(By.CssSelector($".b-dropdown__list__item.day{user.Date.Day}")).Click();
-
-
                 //date Month Input
-
                 driver.FindElement(By.CssSelector(".b-date__month div")).Click();
                 js.ExecuteScript($"document.getElementsByClassName('b-dropdown__list__item__text')[{user.Date.Month + 30}].click()");
                 //driver.FindElement(By.CssSelector($"[data-text=\"{user.GetMonthString(user.Date.Month)}\"]")).Click();
-
                 //date Year Input
                 driver.FindElement(By.CssSelector(".b-date__year div")).Click();
                 js.ExecuteScript($"document.getElementsByClassName('b-dropdown__list__item__text')[{user.YearIndex}].click()");
                 //driver.FindElement(By.CssSelector($"[data-value=\"{user.Date.Year}\"]")).Click();
-
                 //sex input
-                if (user.Sex == false)
+                if (!user.Sex)
                     driver.FindElement(By.CssSelector("[data-mnemo=\"sex-male\"]")).Click();
                 else
                     driver.FindElement(By.CssSelector("[data-mnemo=\"sex-female\"]")).Click();
 
                 //mail Address
                 driver.FindElement(By.CssSelector(".b-email__name input")).SendKeys(user.MailAddress);
-
                 driver.FindElement(By.CssSelector(".b-email__domain div")).Click();
                 js.ExecuteScript($"document.getElementsByClassName('b-dropdown__list__item__text')[{user.MailPrefixIndex}].click()");
                 //driver.FindElement(By.CssSelector($"[data-value=\"{user.MailPrefix}\"]")).Click();
-
                 //dont have number
                 driver.FindElement(By.ClassName("js-signup-simple-link")).Click();
-
                 //password Input
                 driver.FindElement(By.CssSelector("[name=\"password\"]")).SendKeys(user.Password);
                 driver.FindElement(By.CssSelector("[name=\"password_retry\"]")).SendKeys(user.Password);
                 //register
-                ClickWhile(driver.FindElement(By.CssSelector(".b-form__controls button")), driver, 10);
+                ClickWhile(".b-form__controls button", 10);
 
                 string imgPath = string.Empty;
                 IWebElement img = WaitWhile(".b-captcha img", 10);
                 if (img != null)
                 {
-                    imgPath = TakescreenshotByLocation(img, driver);
+                    imgPath = TakeScreenshotByLocationAndGivePath(img, driver);
                     kapcha_board.ImageLocation = imgPath;
                     this.Refresh();
                     this.BringToFront();
@@ -130,8 +132,9 @@ namespace MailRuCreator
         }
         /// ///////////////////////////
 
-        private void ClickWhile(IWebElement element, IWebDriver driver, int seconds)
+        private void ClickWhile(string cssSelector, int seconds)
         {
+            IWebElement element = driver.FindElement(By.CssSelector(cssSelector));
             int s = DateTime.Now.Second + seconds;
             int m = DateTime.Now.Minute;
             if (s >= 60)
@@ -196,7 +199,7 @@ namespace MailRuCreator
         }
 
 
-        private string TakescreenshotByLocation(IWebElement webImage, IWebDriver browser)
+        private string TakeScreenshotByLocationAndGivePath(IWebElement webImage, IWebDriver browser)
         {
             Point p = webImage.Location;
             Screenshot scr = ((ITakesScreenshot)browser).GetScreenshot();
@@ -218,8 +221,6 @@ namespace MailRuCreator
         }
 
         // visual design 
-
-
         //Drag Drop
 
         private bool mouseDown;
@@ -241,10 +242,7 @@ namespace MailRuCreator
             }
         }
 
-        private void general_Drag_Drop_Panel_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-        }
+        private void general_Drag_Drop_Panel_MouseUp(object sender, MouseEventArgs e) => mouseDown = false;
 
         private void Generate_btn_MouseEnter(object sender, EventArgs e)
         {
@@ -266,17 +264,41 @@ namespace MailRuCreator
                 driver.Quit();
         }
 
+        private IWebElement FindWhile(string cssSelector, int seconds)
+        {
+            IWebElement element;
+            do
+            {
+                if (seconds <= 0)
+                    return null;
+                element = driver.FindElement(By.CssSelector(cssSelector));
+                System.Threading.Thread.Sleep(1000);
+                seconds--;
+
+            } while (!element.Enabled);
+            return element;
+        }
+
         private void Ok_btn_Click(object sender, EventArgs e)
         {
+            string messageText = "Enter Kapcha Code and press OK";
             if (string.IsNullOrEmpty(kapcha_line.Text) || string.IsNullOrWhiteSpace(kapcha_line.Text))
-            {
-                MessageBox.Show("Enter Kapcha Code and press OK");
-            }
+                MessageBox.Show(messageText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 try
                 {
+                    IWebElement element;
                     driver.FindElement(By.CssSelector(".b-captcha__code input")).SendKeys(kapcha_line.Text);
-                    ClickWhile(driver.FindElement(By.CssSelector(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive")), driver, 10);
+                    ClickWhile(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive", 10);
+                    try
+                    {
+                        element = FindWhile(".btn.js-skip-step-button", 10);
+                        element.Click();
+                    }
+                    catch (Exception ex)
+                    {
+                        element = null;
+                    }
                     if (IsSuccess(20))
                     {
                         MessageBox.Show("Successfully registrated Mail.Ru Account Thank You For Using");
@@ -286,10 +308,10 @@ namespace MailRuCreator
                         pass_box.Text = user.Password;
                         kapcha_board.ImageLocation = defKapchaIMG;
                         user.ClearUser();
-                        if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
-                            new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                         Refresh();
                         driver.Quit();
+                        if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
+                            new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     }
                 }
                 catch (Exception ex)
@@ -301,10 +323,6 @@ namespace MailRuCreator
         private bool IsSuccess(int seconds)
         {
             IWebElement element;
-            //int s = DateTime.Now.Second + seconds;
-            //int m = DateTime.Now.Minute;
-            //if (s >= 60)
-            //    s -= 60;
             do
             {
                 element = driver.FindElement(By.Id("PH_user-email"));
@@ -338,14 +356,14 @@ namespace MailRuCreator
                 string newImgPath;
                 if (img != null)
                 {
-                    newImgPath = TakescreenshotByLocation(img, driver);
+                    newImgPath = TakeScreenshotByLocationAndGivePath(img, driver);
                     kapcha_board.ImageLocation = newImgPath;
                     this.Refresh();
                     return true;
                 }
                 else
                 {
-                    MessageBox.Show("Cant Find Kapcha IMG");
+                    MessageBox.Show("Cant Find Kapcha image", caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                         new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     driver.Quit();
@@ -354,7 +372,7 @@ namespace MailRuCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
@@ -386,7 +404,7 @@ namespace MailRuCreator
             }
         }
 
-        private void Panel2_MouseClick(object sender, MouseEventArgs e)
+        private void General_Panel2_MouseClick(object sender, MouseEventArgs e)
         {
             name_box.BackColor = Color.White;
             surName_box.BackColor = Color.White;

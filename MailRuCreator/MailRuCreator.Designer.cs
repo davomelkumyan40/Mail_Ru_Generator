@@ -34,8 +34,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.general_Picture = new System.Windows.Forms.PictureBox();
             this.minimize_btn = new System.Windows.Forms.Label();
+            this.close_btn = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.general_panel2 = new System.Windows.Forms.Panel();
             this.refresh_btn = new System.Windows.Forms.PictureBox();
             this.ok_btn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,11 +51,10 @@
             this.pass_box = new System.Windows.Forms.TextBox();
             this.login_box = new System.Windows.Forms.TextBox();
             this.minimized = new System.Windows.Forms.NotifyIcon(this.components);
-            this.close_btn = new System.Windows.Forms.Label();
             this.general_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.general_Picture)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.general_panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.refresh_btn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kapcha_board)).BeginInit();
             this.SuspendLayout();
@@ -122,36 +122,54 @@
             this.minimize_btn.MouseEnter += new System.EventHandler(this.Refresh_btn_MouseEnter);
             this.minimize_btn.MouseLeave += new System.EventHandler(this.Refresh_btn_MouseLeave);
             // 
+            // close_btn
+            // 
+            this.close_btn.AutoSize = true;
+            this.close_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.close_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.close_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.close_btn.ForeColor = System.Drawing.Color.White;
+            this.close_btn.Location = new System.Drawing.Point(745, 9);
+            this.close_btn.Margin = new System.Windows.Forms.Padding(0);
+            this.close_btn.Name = "close_btn";
+            this.close_btn.Size = new System.Drawing.Size(31, 29);
+            this.close_btn.TabIndex = 0;
+            this.close_btn.Text = "X";
+            this.close_btn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.close_btn.Click += new System.EventHandler(this.Close_btn_Click);
+            this.close_btn.MouseEnter += new System.EventHandler(this.Refresh_btn_MouseEnter);
+            this.close_btn.MouseLeave += new System.EventHandler(this.Refresh_btn_MouseLeave);
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.general_panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 108);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(788, 426);
             this.panel1.TabIndex = 1;
             // 
-            // panel2
+            // general_panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(71)))), ((int)(((byte)(133)))));
-            this.panel2.Controls.Add(this.refresh_btn);
-            this.panel2.Controls.Add(this.ok_btn);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.name_label);
-            this.panel2.Controls.Add(this.surName_box);
-            this.panel2.Controls.Add(this.name_box);
-            this.panel2.Controls.Add(this.generate_btn);
-            this.panel2.Controls.Add(this.kapcha_board);
-            this.panel2.Controls.Add(this.kapcha_line);
-            this.panel2.Controls.Add(this.pass_text);
-            this.panel2.Controls.Add(this.login_text);
-            this.panel2.Controls.Add(this.pass_box);
-            this.panel2.Controls.Add(this.login_box);
-            this.panel2.Location = new System.Drawing.Point(16, 17);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(760, 397);
-            this.panel2.TabIndex = 0;
-            this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseClick);
+            this.general_panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(71)))), ((int)(((byte)(133)))));
+            this.general_panel2.Controls.Add(this.refresh_btn);
+            this.general_panel2.Controls.Add(this.ok_btn);
+            this.general_panel2.Controls.Add(this.label2);
+            this.general_panel2.Controls.Add(this.name_label);
+            this.general_panel2.Controls.Add(this.surName_box);
+            this.general_panel2.Controls.Add(this.name_box);
+            this.general_panel2.Controls.Add(this.generate_btn);
+            this.general_panel2.Controls.Add(this.kapcha_board);
+            this.general_panel2.Controls.Add(this.kapcha_line);
+            this.general_panel2.Controls.Add(this.pass_text);
+            this.general_panel2.Controls.Add(this.login_text);
+            this.general_panel2.Controls.Add(this.pass_box);
+            this.general_panel2.Controls.Add(this.login_box);
+            this.general_panel2.Location = new System.Drawing.Point(16, 17);
+            this.general_panel2.Name = "general_panel2";
+            this.general_panel2.Size = new System.Drawing.Size(760, 397);
+            this.general_panel2.TabIndex = 0;
+            this.general_panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.General_Panel2_MouseClick);
             // 
             // refresh_btn
             // 
@@ -321,24 +339,6 @@
             this.minimized.Text = "Mail.Ru Registration Bot";
             this.minimized.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Minimized_MouseDoubleClick);
             // 
-            // close_btn
-            // 
-            this.close_btn.AutoSize = true;
-            this.close_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.close_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.close_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.close_btn.ForeColor = System.Drawing.Color.White;
-            this.close_btn.Location = new System.Drawing.Point(745, 9);
-            this.close_btn.Margin = new System.Windows.Forms.Padding(0);
-            this.close_btn.Name = "close_btn";
-            this.close_btn.Size = new System.Drawing.Size(31, 29);
-            this.close_btn.TabIndex = 0;
-            this.close_btn.Text = "X";
-            this.close_btn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.close_btn.Click += new System.EventHandler(this.Close_btn_Click);
-            this.close_btn.MouseEnter += new System.EventHandler(this.Refresh_btn_MouseEnter);
-            this.close_btn.MouseLeave += new System.EventHandler(this.Refresh_btn_MouseLeave);
-            // 
             // Mailru_Registrator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -356,8 +356,8 @@
             this.general_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.general_Picture)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.general_panel2.ResumeLayout(false);
+            this.general_panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.refresh_btn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kapcha_board)).EndInit();
             this.ResumeLayout(false);
@@ -371,7 +371,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox general_Picture;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel general_panel2;
         private System.Windows.Forms.Button generate_btn;
         private System.Windows.Forms.PictureBox kapcha_board;
         private System.Windows.Forms.TextBox kapcha_line;
