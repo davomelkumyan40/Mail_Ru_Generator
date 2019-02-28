@@ -283,7 +283,7 @@ namespace MailRuCreator
 
         private void Ok_btn_Click(object sender, EventArgs e)
         {
-            bool frameClosed = false;
+            //bool frameClosed = false;
             js.ExecuteScript("document.getElementsByClassName('b-input_captcha')[0].value = '';");
             string messageText = "Enter Capcha Code and press OK";
             if (string.IsNullOrEmpty(kapcha_line.Text) || string.IsNullOrWhiteSpace(kapcha_line.Text))

@@ -353,7 +353,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mail.Ru Registrator Bot";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Mailru_Registrator_FormClosing);
-            this.Load += new System.EventHandler(this.Mailru_Registrator_Load);
             this.general_panel.ResumeLayout(false);
             this.general_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.general_Picture)).EndInit();

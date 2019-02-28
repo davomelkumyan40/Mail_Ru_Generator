@@ -56,14 +56,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MailRuCreator.exe" size="780768">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MailRuCreator.exe" size="779744">
       <assemblyIdentity name="MailRuCreator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>blYL67GOMsitFIWezHbgpjo96GvbW1lnOkPcz+8CQII=</dsig:DigestValue>
+        <dsig:DigestValue>ul15PHAK1gXTB1H7Ds9RYGi+GuFvHHRyBkgYKK3w1Ek=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
