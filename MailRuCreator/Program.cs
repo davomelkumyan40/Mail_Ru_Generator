@@ -16,7 +16,7 @@ namespace MailRuCreator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Mailru_Registrator());
+            Application.Run(new StartScreen());
         }
     }
 }

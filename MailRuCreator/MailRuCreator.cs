@@ -5,8 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Chrome;
 using System.Threading;
 
 namespace MailRuCreator
@@ -18,7 +16,8 @@ namespace MailRuCreator
             InitializeComponent();
         }
 
-        ChromeDriver driver;
+        PhantomJSDriver driver;
+        IJavaScriptExecutor js;
         UserData user;
         string defKapchaIMG = @".\Data\kapcha_def.jpg";
         string caption = "Mail.Ru BOT Info";
@@ -65,9 +64,9 @@ namespace MailRuCreator
                     driver.Quit();
 
                 MessageBox.Show(infoText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                driver = new ChromeDriver();
+                driver = new PhantomJSDriver();
                 driver.Manage().Window.Maximize();
-                IJavaScriptExecutor js = driver;
+                js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
                 user = new UserData();
                 user.GenerateUser();
@@ -159,11 +158,11 @@ namespace MailRuCreator
                 seconds--;
                 if (seconds == 0)
                     return null;
-            } while (/*el == null && el.Size.Height == 0 && el.Size.Width == 0 || */!el.Displayed);
+            } while (!el.Displayed);
             return el;
         }
 
-        //Faster process
+        //Faster process on JS
         private void JavaScriptMacross()
         {
             //IJavaScriptExecutor js = driver;
@@ -274,7 +273,7 @@ namespace MailRuCreator
                 if (seconds <= 0)
                     return null;
                 element = driver.FindElement(By.CssSelector(cssSelector));
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 seconds--;
 
             } while (element == null);
@@ -284,7 +283,6 @@ namespace MailRuCreator
         private void Ok_btn_Click(object sender, EventArgs e)
         {
             bool frameClosed = false;
-            IJavaScriptExecutor js = driver;
             js.ExecuteScript("document.getElementsByClassName('b-input_captcha')[0].value = '';");
             string messageText = "Enter Capcha Code and press OK";
             if (string.IsNullOrEmpty(kapcha_line.Text) || string.IsNullOrWhiteSpace(kapcha_line.Text))
@@ -366,7 +364,6 @@ namespace MailRuCreator
 
         private bool IsSuccess(int seconds)
         {
-            bool finded = false;
             IWebElement element;
             do
             {
@@ -374,13 +371,9 @@ namespace MailRuCreator
                     return false;
 
                 element = driver.FindElement(By.Id("PH_user-email"));
-                if (element != null)
-                    finded = true;
-                else
-                    finded = false;
                 Thread.Sleep(1000);
                 seconds--;
-            } while (element.Text != user.FullMailAddress); // 
+            } while (element.Text != user.FullMailAddress);
             return true;
         }
 
@@ -389,13 +382,13 @@ namespace MailRuCreator
             if (driver != null)
             {
                 this.Refresh();
-                if (!RefreshKapcha())
+                if (!RefreshCapcha())
                     kapcha_board.ImageLocation = defKapchaIMG;
             }
         }
 
 
-        private bool RefreshKapcha()
+        private bool RefreshCapcha()
         {
             driver.FindElement(By.CssSelector(".js-captcha-reload.b-captcha__code__reload")).Click();
             if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
@@ -466,6 +459,11 @@ namespace MailRuCreator
             login_box.BackColor = Color.White;
             pass_box.BackColor = Color.White;
             kapcha_line.BackColor = Color.White;
+        }
+
+        private void Mailru_Registrator_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

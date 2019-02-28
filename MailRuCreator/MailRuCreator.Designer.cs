@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mailru_Registrator));
+            this.Visible = false;
+            this.Enabled = false;
             this.general_panel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.general_Picture = new System.Windows.Forms.PictureBox();
@@ -352,6 +354,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mail.Ru Registrator Bot";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Mailru_Registrator_FormClosing);
+            this.Load += new System.EventHandler(this.Mailru_Registrator_Load);
             this.general_panel.ResumeLayout(false);
             this.general_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.general_Picture)).EndInit();
