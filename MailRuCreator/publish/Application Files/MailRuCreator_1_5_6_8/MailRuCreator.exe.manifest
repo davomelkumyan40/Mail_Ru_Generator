@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="MailRuCreator.exe" version="1.5.6.8" publicKeyToken="9ec50af002ba68ab" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="icon.ico" asmv2:publisher="David Kroods" co.v1:suiteName="BOT" asmv2:product="MailRuCreator" asmv2:supportUrl="https://vk.com/droods" co.v1:errorReportUrl="https://vk.com/droods" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="MailRuCreator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="MailRuCreator.exe" parameters="" />
+  </entryPoint>
+  <co.v1:useManifestForTrust xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Ionic.Zip.dll" size="462336">
+      <assemblyIdentity name="Ionic.Zip" version="1.9.1.8" publicKeyToken="EDBE51AD942A3F5C" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Oz5UFoLkjz/Shy+FoGJ42i8+eHfulW2om5DXMqHqoL0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MailRuCreator.exe" size="840160">
+      <assemblyIdentity name="MailRuCreator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>CU8ARF7R5hnxNVhcoabmLFzbrqHvJ1Usmn6BGEywMPc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="481792">
+      <assemblyIdentity name="Newtonsoft.Json" version="6.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>I0W3FA80TRZzsv2SgBpg4FAIKEoRyqRUxEw8DraIgtE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WebDriver.dll" size="200704">
+      <assemblyIdentity name="WebDriver" version="2.45.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>KAFCsPacPbf7UIW5D+58LLXMpbMtQpito23YydLfQq4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WebDriver.Support.dll" size="52224">
+      <assemblyIdentity name="WebDriver.Support" version="3.141.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>tZun0M/+Q+cisTrXN89ZbwMHiLhrW1V8tHnwtpV8zoo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="icon.ico" size="77302">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>phHC49Awc3ddqU4CyHUQzeyRkASI18JdGGTiFOk3sOI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MailRuCreator.exe.config" size="189">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>R+Wg8QGvQVHX8T0ta/qbhH1bXkqY0fRnS3wBV3J0bN8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="phantomjs.exe" size="18587648">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HPmyqnMr0MZag8VdlrqYxO1GK5NyDX/YwLzFNoO/z/s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="phantomjs-license.txt" size="1451">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>BsHK/ilMy1R/S6HuNJqlDHkoRbHoqK5XoryobojXEwk=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-K4C1OAR\davom" issuerKeyHash="1f2e7678ae7aa3c60b37ba79850ebfb047fed3f3" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>qvNahVXY09LCY2hnSeE2QWpIZ13gNDOtS52rvbaJ/3I=</DigestValue></Reference></SignedInfo><SignatureValue>e3Ntd8PPyJgQkvAlmB8ITvT3/hzaZUJ3FLe14ZsRza/MDJlzRRm57GJqOJ8lNzdSSe0BylSHJ2BFn26wa1V8dBlb8kq7MZcjcMFjNow9qXe3Wvhpj8ALWLtcCNy9bBeKhyPjyApPNgEocVG3i7BHGVqzZlryi7rIKIp3QZE8YkA=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>5p5sR+Y/o8zTz4kUm/7TUgVCOLXpq6ndBb3G4eKonX+90YMcprB1N02Zoia+rqdfOpD+5G9l2zDiZtb8B13QQc92A6LpYWfzx9Z0WuGrOGsNH+bFJOwWgEnc6/SapPKzNWD2bOXsAQ1T9zv2EBf8rdnjzjw4+pC480HE7ywQ1MU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="72ff89b6bdab9d4bad3334e05d67486a4136e149676863c2d2d3d855855af3aa" Description="" Url=""><as:assemblyIdentity name="MailRuCreator.exe" version="1.5.6.8" publicKeyToken="9ec50af002ba68ab" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-K4C1OAR\davom</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>LHmpWzFwQo4v0OajlFIZFUzw/TPb9OlOthfCkkw8sk8=</DigestValue></Reference></SignedInfo><SignatureValue>eRU8FVTBg/QUETpoO4K/6S1FC520WseN+yM5pA46bpPAcCrrfRYocz9s6A8G4gyJbMbruafC1NAVxEs/l+oVqMiejV4AYehLw1HWA79DjrXK9BUy3JxaLLO9aFkVIS2esX5UAhG2uFr5PKGmnPT0UC/Nz1LbbSdnVJ1kbGs3GQk=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>5p5sR+Y/o8zTz4kUm/7TUgVCOLXpq6ndBb3G4eKonX+90YMcprB1N02Zoia+rqdfOpD+5G9l2zDiZtb8B13QQc92A6LpYWfzx9Z0WuGrOGsNH+bFJOwWgEnc6/SapPKzNWD2bOXsAQ1T9zv2EBf8rdnjzjw4+pC480HE7ywQ1MU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7TCCAVagAwIBAgIQOSDp06+Qg61DyR00U/KrmTANBgkqhkiG9w0BAQsFADA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEsANABDADEATwBBAFIAXABkAGEAdgBvAG0wHhcNMTkwMjI4MDY1NzQ3WhcNMjAwMjI4MTI1NzQ3WjA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEsANABDADEATwBBAFIAXABkAGEAdgBvAG0wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAOaebEfmP6PM08+JFJv+01IFQji16aup3QW9xuHiqJ1/vdGDHKawdTdNmaImvq6nXzqQ/uRvZdsw4mbW/Add0EHPdgOi6WFn88fWdFrhqzhrDR/mxSTsFoBJ3Ov0mqTyszVg9mzl7AENU/c79hAX/K3Z4848OPqQuPNBxO8sENTFAgMBAAEwDQYJKoZIhvcNAQELBQADgYEApf2fX6ZltCD242+lAztnPuvdNPcmONAzu9Uu0MEbiJcpEOuABYMdL0SlcOasiO4KqPsM3uq643bE3V/xx2Bd6YrRb9ONAVpKYJUyPrKuxfgHPJN8HvFeEu/B1HPHfSop7Hy8nSWKwe86OgGgzau4YFySd26VwYWuhFxwph2TtY0=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

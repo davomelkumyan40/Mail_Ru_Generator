@@ -30,8 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mailru_Registrator));
-            this.Visible = false;
-            this.Enabled = false;
             this.general_panel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.general_Picture = new System.Windows.Forms.PictureBox();
@@ -271,7 +269,7 @@
             // 
             // kapcha_board
             // 
-            this.kapcha_board.BackColor = System.Drawing.Color.White;
+            this.kapcha_board.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(71)))), ((int)(((byte)(133)))));
             this.kapcha_board.Cursor = System.Windows.Forms.Cursors.Cross;
             this.kapcha_board.Image = ((System.Drawing.Image)(resources.GetObject("kapcha_board.Image")));
             this.kapcha_board.Location = new System.Drawing.Point(419, 35);
@@ -348,6 +346,7 @@
             this.ClientSize = new System.Drawing.Size(788, 534);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.general_panel);
+            this.Enabled = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Mailru_Registrator";

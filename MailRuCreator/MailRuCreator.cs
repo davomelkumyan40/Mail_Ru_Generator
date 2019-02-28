@@ -68,6 +68,7 @@ namespace MailRuCreator
                 driver.Manage().Window.Maximize();
                 js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+                driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
                 user = new UserData();
                 user.GenerateUser();
                 driver.Navigate().GoToUrl("https://account.mail.ru/signup?rf=auth.mail.ru&from=main");
@@ -298,26 +299,9 @@ namespace MailRuCreator
                         MessageBox.Show("You are Entered Wrong Capcha try again and press OK", caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    int s = 5;
-                    do
+                    else
                     {
-                        if (s == 0)
-                            break;
-                        try
-                        {
-                            js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
-                            frameClosed = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            frameClosed = false;
-                        }
-                        Thread.Sleep(1000);
-                        s--;
-                    } while (!frameClosed);
-                    UIClear();
-                    if (IsSuccess(20))
-                    {
+                        UIClear();
                         MessageBox.Show("Successfully registrated Mail.Ru Account Thank You For Using");
                         name_box.Text = user.Name;
                         surName_box.Text = user.SurName;
@@ -330,6 +314,24 @@ namespace MailRuCreator
                         if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                             new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     }
+                    //int s = 5;
+                    //do
+                    //{
+                    //    if (s == 0)
+                    //        break;
+                    //    try
+                    //    {
+                    //        js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
+                    //        frameClosed = true;
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        frameClosed = false;
+                    //    }
+                    //    Thread.Sleep(1000);
+                    //    s--;
+                    //} while (!frameClosed);
+
                 }
                 catch (Exception ex)
                 {
@@ -362,20 +364,31 @@ namespace MailRuCreator
             return true;
         }
 
-        private bool IsSuccess(int seconds)
-        {
-            IWebElement element;
-            do
-            {
-                if (seconds <= 0)
-                    return false;
+        //private bool IsSuccess(int seconds)
+        //{
+        //    IWebElement element = null;
+        //    do
+        //    {
+        //        if (seconds <= 0)
+        //            return false;
+        //        try
+        //        {
+        //            element = driver.FindElement(By.Id("PH_user-email"));
+        //            seconds--;
+        //        }
+        //        catch (Exception ex)
+        //        {
 
-                element = driver.FindElement(By.Id("PH_user-email"));
-                Thread.Sleep(1000);
-                seconds--;
-            } while (element.Text != user.FullMailAddress);
-            return true;
-        }
+        //        }
+        //        Thread.Sleep(1000);
+        //        if (element.Text == user.FullMailAddress)
+        //        {
+        //            return true;
+        //        }
+
+        //    } while (seconds != 0);
+        //    return true;
+        //}
 
         private void Refresh_btn_Click(object sender, EventArgs e)
         {
@@ -459,11 +472,6 @@ namespace MailRuCreator
             login_box.BackColor = Color.White;
             pass_box.BackColor = Color.White;
             kapcha_line.BackColor = Color.White;
-        }
-
-        private void Mailru_Registrator_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
