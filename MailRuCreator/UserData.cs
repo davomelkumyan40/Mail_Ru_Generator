@@ -74,7 +74,7 @@ namespace MailRuCreator
             this.Sex = Convert.ToBoolean(r.Next(0, 2));
             this.YearIndex = r.Next(43, 162);
             Date = this.Date = new DateTime(r.Next(1901, 2020), r.Next(1, 13), r.Next(1, 28));
-            randomIndex = r.Next(4, 8);
+            randomIndex = r.Next(4, 6);
             Password = GeneratePassword(randomIndex);
             //Name
             for (int i = 0; i < randomIndex; i++)

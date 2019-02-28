@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
+using System.Threading;
 
 namespace MailRuCreator
 {
@@ -17,7 +18,7 @@ namespace MailRuCreator
             InitializeComponent();
         }
 
-        PhantomJSDriver driver;
+        ChromeDriver driver;
         UserData user;
         string defKapchaIMG = @".\Data\kapcha_def.jpg";
         string caption = "Mail.Ru BOT Info";
@@ -53,20 +54,21 @@ namespace MailRuCreator
             kapcha_board.ImageLocation = defKapchaIMG;
         }
 
+
         private void Generate_btn_Click(object sender, EventArgs e)
         {
-            string infoText = "Please Wait While you Kapcha will be Displayed";
+            UIClear();
+            string infoText = "Please Wait While you Capcha will be Displayed";
             try
             {
                 if (driver != null)
                     driver.Quit();
 
-                UIClear();
                 MessageBox.Show(infoText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                driver = new PhantomJSDriver();
+                driver = new ChromeDriver();
+                driver.Manage().Window.Maximize();
                 IJavaScriptExecutor js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
-                driver.Manage().Window.Maximize();
                 user = new UserData();
                 user.GenerateUser();
                 driver.Navigate().GoToUrl("https://account.mail.ru/signup?rf=auth.mail.ru&from=main");
@@ -103,16 +105,17 @@ namespace MailRuCreator
                 driver.FindElement(By.CssSelector("[name=\"password\"]")).SendKeys(user.Password);
                 driver.FindElement(By.CssSelector("[name=\"password_retry\"]")).SendKeys(user.Password);
                 //register
+                Thread.Sleep(500);
+                //js.ExecuteScript("document.getElementsByClassName('btn_responsive-wide')[0].click()");
                 ClickWhile(".b-form__controls button", 10);
 
                 string imgPath = string.Empty;
-                IWebElement img = WaitWhile(".b-captcha img", 10);
+                IWebElement img = WaitWhile(".b-captcha img", 15);
                 if (img != null)
                 {
                     imgPath = TakeScreenshotByLocationAndGivePath(img, driver);
                     kapcha_board.ImageLocation = imgPath;
                     this.Refresh();
-                    this.BringToFront();
                 }
                 else
                 {
@@ -130,7 +133,6 @@ namespace MailRuCreator
                     new FileInfo(@".\Source\capchaIMG.jpg").Delete();
             }
         }
-        /// ///////////////////////////
 
         private void ClickWhile(string cssSelector, int seconds)
         {
@@ -157,7 +159,7 @@ namespace MailRuCreator
                 seconds--;
                 if (seconds == 0)
                     return null;
-            } while (el == null || el.Size.Height == 0 || el.Size.Width == 0 || !el.Displayed);
+            } while (/*el == null && el.Size.Height == 0 && el.Size.Width == 0 || */!el.Displayed);
             return el;
         }
 
@@ -275,30 +277,47 @@ namespace MailRuCreator
                 System.Threading.Thread.Sleep(1000);
                 seconds--;
 
-            } while (!element.Enabled);
+            } while (element == null);
             return element;
         }
 
         private void Ok_btn_Click(object sender, EventArgs e)
         {
-            string messageText = "Enter Kapcha Code and press OK";
+            bool frameClosed = false;
+            IJavaScriptExecutor js = driver;
+            js.ExecuteScript("document.getElementsByClassName('b-input_captcha')[0].value = '';");
+            string messageText = "Enter Capcha Code and press OK";
             if (string.IsNullOrEmpty(kapcha_line.Text) || string.IsNullOrWhiteSpace(kapcha_line.Text))
                 MessageBox.Show(messageText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
+            {
                 try
                 {
-                    IWebElement element;
                     driver.FindElement(By.CssSelector(".b-captcha__code input")).SendKeys(kapcha_line.Text);
-                    ClickWhile(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive", 10);
-                    try
+                    driver.FindElement(By.CssSelector(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive")).Click();
+                    if (ErrorMessageEnabled(1))
                     {
-                        element = FindWhile(".btn.js-skip-step-button", 10);
-                        element.Click();
+                        MessageBox.Show("You are Entered Wrong Capcha try again and press OK", caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    catch (Exception ex)
+                    int s = 5;
+                    do
                     {
-                        element = null;
-                    }
+                        if (s == 0)
+                            break;
+                        try
+                        {
+                            js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
+                            frameClosed = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            frameClosed = false;
+                        }
+                        Thread.Sleep(1000);
+                        s--;
+                    } while (!frameClosed);
+                    UIClear();
                     if (IsSuccess(20))
                     {
                         MessageBox.Show("Successfully registrated Mail.Ru Account Thank You For Using");
@@ -318,20 +337,50 @@ namespace MailRuCreator
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
         }
 
-        private bool IsSuccess(int seconds)
+        private bool ErrorMessageEnabled(int seconds)
         {
             IWebElement element;
             do
             {
-                element = driver.FindElement(By.Id("PH_user-email"));
-                System.Threading.Thread.Sleep(1000);
+                if (seconds <= 0)
+                    return false;
+                try
+                {
+                    element = driver.FindElement(By.ClassName("b-captcha__error-msg"));
+                }
+                catch (Exception ex)
+                {
+                    element = null;
+                }
+                if (element == null)
+                    return false;
+                Thread.Sleep(1000);
                 seconds--;
+
+            } while (element.Text == string.Empty);
+            return true;
+        }
+
+        private bool IsSuccess(int seconds)
+        {
+            bool finded = false;
+            IWebElement element;
+            do
+            {
                 if (seconds <= 0)
                     return false;
 
-            } while (!element.Text.Contains(user.MailAddress));
+                element = driver.FindElement(By.Id("PH_user-email"));
+                if (element != null)
+                    finded = true;
+                else
+                    finded = false;
+                Thread.Sleep(1000);
+                seconds--;
+            } while (element.Text != user.FullMailAddress); // 
             return true;
         }
 
@@ -339,26 +388,30 @@ namespace MailRuCreator
         {
             if (driver != null)
             {
+                this.Refresh();
                 if (!RefreshKapcha())
                     kapcha_board.ImageLocation = defKapchaIMG;
-                this.Refresh();
             }
         }
 
+
         private bool RefreshKapcha()
         {
+            driver.FindElement(By.CssSelector(".js-captcha-reload.b-captcha__code__reload")).Click();
             if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                 new FileInfo(@".\Source\capchaIMG.jpg").Delete();
             try
             {
-                driver.FindElement(By.CssSelector(".js-captcha-reload.b-captcha__code__reload")).Click();
                 IWebElement img = WaitWhile(".b-captcha img", 10);
-                string newImgPath;
+                string newImgPath = null;
                 if (img != null)
                 {
+                    if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
+                        new FileInfo(@".\Source\capchaIMG.jpg").Delete();
+                    Thread.Sleep(1500);
                     newImgPath = TakeScreenshotByLocationAndGivePath(img, driver);
                     kapcha_board.ImageLocation = newImgPath;
-                    this.Refresh();
+                    Refresh();
                     return true;
                 }
                 else
@@ -372,9 +425,11 @@ namespace MailRuCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (driver != null)
+                    driver.Quit();
+                return false;
+                //MessageBox.Show(ex.Message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
         }
 
         private void Refresh_btn_MouseEnter(object sender, EventArgs e)
