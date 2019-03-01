@@ -19,6 +19,5 @@ C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Debug\MailRuCreator.pdb
 C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Debug\MailRuCreator.StartScreen.resources
 C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Debug\MailRuCreator.exe.manifest
 C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Debug\MailRuCreator.application
-C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Debug\MailRuCreator.csprojAssemblyReference.cache
 C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Debug\MailRuCreator.exe.manifest
 C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Debug\MailRuCreator.application

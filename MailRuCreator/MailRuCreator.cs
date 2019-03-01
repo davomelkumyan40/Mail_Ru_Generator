@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using System.Threading;
+using OpenQA.Selenium.Chrome;
 
 namespace MailRuCreator
 {
@@ -107,7 +108,6 @@ namespace MailRuCreator
                 //Thread.Sleep(500);
                 //js.ExecuteScript("document.getElementsByClassName('btn_responsive-wide')[0].click()");
                 ClickWhile(".b-form__controls button", 10);
-
                 string imgPath = string.Empty;
                 IWebElement img = WaitWhile(".b-captcha img", 15);
                 if (img != null)
@@ -150,15 +150,21 @@ namespace MailRuCreator
 
         private IWebElement WaitWhile(string cssSelector, int seconds)
         {
-            IWebElement el;
-            do
+            IWebElement el = null;
+            for (int i = 0; i < seconds; i++)
             {
-                el = driver.FindElement(By.CssSelector(cssSelector));
-                System.Threading.Thread.Sleep(1000);
-                seconds--;
-                if (seconds == 0)
-                    return null;
-            } while (!el.Displayed);
+                try
+                {
+                    el = driver.FindElement(By.CssSelector(cssSelector));
+                    if (el.Displayed)
+                        break;
+                }
+                catch (Exception ex)
+                {
+
+                }
+                Thread.Sleep(1000);
+            }
             return el;
         }
 
@@ -291,7 +297,9 @@ namespace MailRuCreator
                 try
                 {
                     driver.FindElement(By.CssSelector(".b-captcha__code input")).SendKeys(kapcha_line.Text);
-                    driver.FindElement(By.CssSelector(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive")).Click();
+                    //ClickWhile(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive", 10);
+                    js.ExecuteScript("document.getElementsByClassName('btn btn_main btn_stylish')[0].click();");
+                    //driver.FindElement(By.CssSelector(".b-form__control.b-form__control_main.b-form__control_stylish.b-form__control_responsive")).Click();
                     if (ErrorMessageEnabled(1))
                     {
                         MessageBox.Show("You are Entered Wrong Capcha try again and press OK", caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -301,12 +309,13 @@ namespace MailRuCreator
                     {
                         //ClosePanel();
                         UIClear();
-                        MessageBox.Show("Successfully registrated Mail.Ru Account.\n\rPlease Wait While Console will be closed.\n\rThank You For Using");
-                        DrawAccData();
                         if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                             new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     }
-                    Thread.Sleep(12000);
+                    Thread.Sleep(8000);
+                    MessageBox.Show("Successfully registrated Mail.Ru Account.\n\rPlease Wait While Console will be closed.\n\rThank You For Using");
+                    driver.GetScreenshot().SaveAsFile("ssssssss.jpg", ImageFormat.Jpeg);
+                    DrawAccData();
                     driver.Quit();
 
                 }
@@ -328,27 +337,27 @@ namespace MailRuCreator
             Refresh();
         }
 
-        private void ClosePanel()
-        {
-            bool frameClosed = false;
-            int s = 5;
-            do
-            {
-                if (s == 0)
-                    break;
-                try
-                {
-                    js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
-                    frameClosed = true;
-                }
-                catch (Exception ex)
-                {
-                    frameClosed = false;
-                }
-                Thread.Sleep(1000);
-                s--;
-            } while (!frameClosed);
-        }
+        //private void ClosePanel()
+        //{
+        //    bool frameClosed = false;
+        //    int s = 5;
+        //    do
+        //    {
+        //        if (s == 0)
+        //            break;
+        //        try
+        //        {
+        //            js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
+        //            frameClosed = true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            frameClosed = false;
+        //        }
+        //        Thread.Sleep(1000);
+        //        s--;
+        //    } while (!frameClosed);
+        //}
 
         private bool ErrorMessageEnabled(int seconds)
         {
