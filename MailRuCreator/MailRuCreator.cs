@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using System.Threading;
-using OpenQA.Selenium.Chrome;
 
 namespace MailRuCreator
 {
@@ -17,7 +16,7 @@ namespace MailRuCreator
             InitializeComponent();
         }
 
-        ChromeDriver driver;
+        PhantomJSDriver driver;
         IJavaScriptExecutor js;
         UserData user;
         string defKapchaIMG = @".\Data\kapcha_def.jpg";
@@ -65,7 +64,7 @@ namespace MailRuCreator
                     driver.Quit();
 
                 MessageBox.Show(infoText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                driver = new ChromeDriver();
+                driver = new PhantomJSDriver();
                 driver.Manage().Window.Maximize();
                 js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
@@ -307,7 +306,7 @@ namespace MailRuCreator
                         if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                             new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     }
-                    Thread.Sleep(10000);
+                    Thread.Sleep(12000);
                     driver.Quit();
 
                 }
