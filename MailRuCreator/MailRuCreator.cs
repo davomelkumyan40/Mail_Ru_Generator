@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using System.Threading;
+using OpenQA.Selenium.Chrome;
 
 namespace MailRuCreator
 {
@@ -16,7 +17,7 @@ namespace MailRuCreator
             InitializeComponent();
         }
 
-        PhantomJSDriver driver;
+        ChromeDriver driver;
         IJavaScriptExecutor js;
         UserData user;
         string defKapchaIMG = @".\Data\kapcha_def.jpg";
@@ -64,11 +65,10 @@ namespace MailRuCreator
                     driver.Quit();
 
                 MessageBox.Show(infoText, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                driver = new PhantomJSDriver();
+                driver = new ChromeDriver();
                 driver.Manage().Window.Maximize();
                 js = driver;
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
-                driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
                 user = new UserData();
                 user.GenerateUser();
                 driver.Navigate().GoToUrl("https://account.mail.ru/signup?rf=auth.mail.ru&from=main");
@@ -105,7 +105,7 @@ namespace MailRuCreator
                 driver.FindElement(By.CssSelector("[name=\"password\"]")).SendKeys(user.Password);
                 driver.FindElement(By.CssSelector("[name=\"password_retry\"]")).SendKeys(user.Password);
                 //register
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
                 //js.ExecuteScript("document.getElementsByClassName('btn_responsive-wide')[0].click()");
                 ClickWhile(".b-form__controls button", 10);
 
@@ -283,7 +283,6 @@ namespace MailRuCreator
 
         private void Ok_btn_Click(object sender, EventArgs e)
         {
-            //bool frameClosed = false;
             js.ExecuteScript("document.getElementsByClassName('b-input_captcha')[0].value = '';");
             string messageText = "Enter Capcha Code and press OK";
             if (string.IsNullOrEmpty(kapcha_line.Text) || string.IsNullOrWhiteSpace(kapcha_line.Text))
@@ -301,36 +300,15 @@ namespace MailRuCreator
                     }
                     else
                     {
+                        //ClosePanel();
                         UIClear();
-                        MessageBox.Show("Successfully registrated Mail.Ru Account Thank You For Using");
-                        name_box.Text = user.Name;
-                        surName_box.Text = user.SurName;
-                        login_box.Text = user.FullMailAddress;
-                        pass_box.Text = user.Password;
-                        kapcha_board.ImageLocation = defKapchaIMG;
-                        user.ClearUser();
-                        Refresh();
-                        driver.Quit();
+                        MessageBox.Show("Successfully registrated Mail.Ru Account.\n\rPlease Wait While Console will be closed.\n\rThank You For Using");
+                        DrawAccData();
                         if (new FileInfo(@".\Source\capchaIMG.jpg").Exists)
                             new FileInfo(@".\Source\capchaIMG.jpg").Delete();
                     }
-                    //int s = 5;
-                    //do
-                    //{
-                    //    if (s == 0)
-                    //        break;
-                    //    try
-                    //    {
-                    //        js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
-                    //        frameClosed = true;
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        frameClosed = false;
-                    //    }
-                    //    Thread.Sleep(1000);
-                    //    s--;
-                    //} while (!frameClosed);
+                    Thread.Sleep(10000);
+                    driver.Quit();
 
                 }
                 catch (Exception ex)
@@ -340,11 +318,46 @@ namespace MailRuCreator
             }
         }
 
+        private void DrawAccData()
+        {
+            name_box.Text = user.Name;
+            surName_box.Text = user.SurName;
+            login_box.Text = user.FullMailAddress;
+            pass_box.Text = user.Password;
+            kapcha_board.ImageLocation = defKapchaIMG;
+            user.ClearUser();
+            Refresh();
+        }
+
+        private void ClosePanel()
+        {
+            bool frameClosed = false;
+            int s = 5;
+            do
+            {
+                if (s == 0)
+                    break;
+                try
+                {
+                    js.ExecuteScript("document.getElementsByClassName('js-close-link')[0].click();");
+                    frameClosed = true;
+                }
+                catch (Exception ex)
+                {
+                    frameClosed = false;
+                }
+                Thread.Sleep(1000);
+                s--;
+            } while (!frameClosed);
+        }
+
         private bool ErrorMessageEnabled(int seconds)
         {
             IWebElement element;
             do
             {
+                Thread.Sleep(1000);
+
                 if (seconds <= 0)
                     return false;
                 try
@@ -357,7 +370,6 @@ namespace MailRuCreator
                 }
                 if (element == null)
                     return false;
-                Thread.Sleep(1000);
                 seconds--;
 
             } while (element.Text == string.Empty);

@@ -21,3 +21,4 @@ C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Release\MailRuCreator.exe.
 C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Release\MailRuCreator.application
 C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Release\MailRuCreator.exe.manifest
 C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Release\MailRuCreator.application
+C:\Users\davom\source\repos\BotMail\MailRuCreator\obj\Release\MailRuCreator.csprojAssemblyReference.cache

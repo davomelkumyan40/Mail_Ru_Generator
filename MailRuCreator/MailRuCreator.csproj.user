@@ -15,6 +15,7 @@
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Release\Data\;C:\Users\davom\source\repos\BotMail\MailRuCreator\bin\Release\Source\</ReferencePath>
+    <ReferencePath>
+    </ReferencePath>
   </PropertyGroup>
 </Project>
