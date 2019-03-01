@@ -314,7 +314,6 @@ namespace MailRuCreator
                     }
                     Thread.Sleep(8000);
                     MessageBox.Show("Successfully registrated Mail.Ru Account.\n\rPlease Wait While Console will be closed.\n\rThank You For Using");
-                    driver.GetScreenshot().SaveAsFile("ssssssss.jpg", ImageFormat.Jpeg);
                     DrawAccData();
                     driver.Quit();
 
